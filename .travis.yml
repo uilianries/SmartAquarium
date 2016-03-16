@@ -2,8 +2,6 @@
 # \brief Default Travis for project
 # \author Uilian Ries <uilianries@gmail.com>
 #
-sudo: required
-
 dist: trusty
 
 language: cpp
@@ -12,7 +10,10 @@ compiler: gcc
 
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq -y cmake 
+  - sudo apt-get install -qq -y cmake libboost1.55-all-dev
+
+script:
+  - mkdir build && cd build && cmake .. && make
 
 branches:
   only:
