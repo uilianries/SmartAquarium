@@ -1,0 +1,3 @@
+// the configured options and settings for Smart Aquarium
+#define SMARTAQUARIUM_VERSION_MAJOR @smartaquarium_VERSION_MAJOR@
+#define SMARTAQUARIUM_VERSION_MINOR @smartaquarium_VERSION_MINOR@
