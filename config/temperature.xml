@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+<temperature>
+	<breed>
+		<betta>
+			<min>22</min>
+			<max>30</max>
+		</betta>
+	</breed>
+	
+</temperature>
+</config>
