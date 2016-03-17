@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <config>
-<ph>
+<ph_sensor>
+    <pin>AIN1</pin>
     <breed>
         <betta>
             <min>6</min>
             <max>8</max>
         </betta>
     </breed>
-</ph>
+</ph_sensor>
 </config>

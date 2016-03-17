@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <config>
-<light>
+<light_sensor>
 <breed>
+    <pin>AIN0</pin>
 	<betta>
 		<level>low</level>
 	</betta>
 </breed>
-</light>
+</light_sensor>
 </config>
