@@ -15,6 +15,9 @@ include_directories("${PROJECT_BINARY_DIR}")
 set(BOOST_MIN_VERSION 1.55.0)
 find_package(Boost ${BOOST_MIN_VERSION} REQUIRED)
 
+find_library(POCO_FOUNDATION PocoFoundation)
+find_library(POCO_UTIL PocoUtil)
+
 include_directories(${Boost_INCLUDE_DIR})
 
 add_subdirectory(src)

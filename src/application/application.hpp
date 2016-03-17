@@ -7,6 +7,12 @@
 #ifndef SMARTAQUARIUM_APP_HPP_
 #define SMARTAQUARIUM_APP_HPP_
 
+#include <Poco/Util/ServerApplication.h>
+#include <Poco/Util/Application.h>
+
+using Poco::Util::ServerApplication;
+using Poco::Util::Application;
+
 namespace smartaquarium {
 
 /**
@@ -15,13 +21,15 @@ namespace smartaquarium {
     *        and provide an entry for each
     *        specialization.
     */
-class application {
+class application : public ServerApplication {
 
 public:
     /**
-      * \brief For now, do nothing
-      */
-    application();
+   * \brief Execute main function
+   * \param args arguments from stdin
+   * \return process code error
+   */
+    int main(const ArgVec& args);
 };
 } // namespace smartaquarium
 
