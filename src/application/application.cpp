@@ -12,14 +12,27 @@
 
 #include <Poco/Path.h>
 #include <Poco/Environment.h>
+#include <Poco/TaskManager.h>
+
+#include "task.hpp"
 
 namespace smartaquarium {
 
 int application::main(const ArgVec& args)
 {
     std::ignore = args;
+    Poco::TaskManager task_manager;
+
+    std::string task_name = name();
+
+    // @TODO - Add Task for connect MQTT client
+
+    task_manager.start(new task(task_name, std::bind(&application::execute, this)));
 
     waitForTerminationRequest();
+
+    task_manager.cancelAll();
+    task_manager.joinAll();
 
     return Poco::Util::Application::EXIT_OK;
 }
