@@ -9,6 +9,7 @@
 #include <tuple>
 #include <string>
 #include <stdexcept>
+#include <sstream>
 
 #include <Poco/Path.h>
 #include <Poco/Environment.h>
@@ -23,7 +24,7 @@ int application::main(const ArgVec& args)
     std::ignore = args;
     Poco::TaskManager task_manager;
 
-    std::string task_name = name();
+    auto task_name = commandName();
 
     // @TODO - Add Task for connect MQTT client
 
@@ -39,12 +40,16 @@ int application::main(const ArgVec& args)
 
 void application::initialize(Application& self)
 {
-    const std::string env_path{ Poco::Environment::get("PATH") };
-    const std::string process_name{ name() + std::string(".xml") };
+    std::string env_path{ Poco::Environment::get("PATH") };
+    env_path += ":" + Poco::Environment::get("PWD");
+    const std::string process_name{ commandName() + ".xml" };
     Poco::Path config_path;
 
     if (!Poco::Path::find(env_path, process_name, config_path)) {
-        throw std::runtime_error("ERROR: Could not find config file.");
+        std::ostringstream oss;
+        oss << "ERROR: Could not find config file " << process_name
+             << " at path " << env_path;
+        throw std::runtime_error(oss.str());
     }
 
     loadConfiguration(config_path.toString());
@@ -55,6 +60,7 @@ void application::initialize(Application& self)
 
 void application::execute()
 {
+    logger().trace(__func__);
 }
 
 } // namespace smartaquarium
