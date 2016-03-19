@@ -3,32 +3,29 @@
  * \brief Launch application and wait for terminate
  * \author Uilian Ries <uilianries@gmail.com>
  */
-#include <cassert>
-#include <cstdlib>
+#include <cppunit/TestResult.h>
+#include <cppunit/TestResultCollector.h>
+#include <cppunit/BriefTestProgressListener.h>
+#include <cppunit/TestRunner.h>
+#include <cppunit/extensions/TestFactoryRegistry.h>
 
-#include <Poco/Process.h>
-#include <Poco/File.h>
-#include <Poco/Path.h>
-
-int main () 
+int main()
 {
-    const std::string test_process_name{"test_application"};
-    const std::string bin_directory{"test/application"};
+    //--- Create the event manager and test controller
+    CPPUNIT_NS::TestResult controller;
 
-    Poco::Path process_abs_path;
-    assert(Poco::Path::find(bin_directory, test_process_name, process_abs_path));
-    
-    Poco::File process_fd{process_abs_path};
-    assert(process_fd.exists());
-    assert(process_fd.canExecute());
+    //--- Add a listener that colllects test result
+    CPPUNIT_NS::TestResultCollector result;
+    controller.addListener(&result);
 
-    Poco::Process::Args args;
-    auto process_handler = Poco::Process::launch(process_abs_path.toString(), args);
-    assert(process_handler.id() != 0);
+    //--- Add a listener that print dots as test run.
+    CPPUNIT_NS::BriefTestProgressListener progress;
+    controller.addListener(&progress);
 
-    Poco::Process::requestTermination(process_handler.id());
-    auto error_code = Poco::Process::wait(process_handler);
-    assert(error_code == 0);
+    //--- Add the top suite to the test runner
+    CPPUNIT_NS::TestRunner runner;
+    runner.addTest(CPPUNIT_NS::TestFactoryRegistry::getRegistry().makeTest());
+    runner.run(controller);
 
-    return EXIT_SUCCESS;
+    return result.wasSuccessful() ? 0 : 1;
 }
