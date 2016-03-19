@@ -53,4 +53,8 @@ void application::initialize(Application& self)
     ServerApplication::initialize(self);
 }
 
+void application::execute()
+{
+}
+
 } // namespace smartaquarium

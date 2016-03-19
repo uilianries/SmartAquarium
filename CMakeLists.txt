@@ -23,6 +23,7 @@ find_library(POCO_UTIL PocoUtil)
 include_directories(${Boost_INCLUDE_DIR})
 
 add_subdirectory(src)
+add_subdirectory(test)
 
 install(FILES ${PROJECT_BINARY_DIR}/src/version.hpp
     DESTINATION ${CMAKE_INSTALL_PREFIX}/include/${CMAKE_PROJECT_NAME})
