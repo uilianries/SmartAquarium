@@ -10,7 +10,7 @@ compiler: gcc
 
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq -y cmake libcppunit-dev doxygen cppcheck clang-3.6
+  - sudo apt-get install -qq -y cmake libcppunit-dev doxygen cppcheck clang-3.6 graphviz
   - curl -s https://packagecloud.io/install/repositories/uilianries/poco/script.deb.sh | sudo bash && sudo apt-get install libpoco-1.7=1.7-1
 
 script:
