@@ -14,11 +14,11 @@ before_install:
   - curl -s https://packagecloud.io/install/repositories/uilianries/poco/script.deb.sh | sudo bash && sudo apt-get install libpoco-1.7=1.7-1
 
 script:
-  - mkdir build && cd build && cmake .. && make
-  - sudo make install
   - script/doxygen.sh
   - script/cppcheck.sh
   - script/tidy.sh
+  - mkdir build && cd build && cmake .. && make
+  - sudo make install
   - test/application/test
 
 branches:
