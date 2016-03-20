@@ -16,6 +16,7 @@ before_install:
 script:
   - mkdir build && cd build && cmake .. && make
   - sudo make install
+  - script/doxygen.sh
   - test/application/test
 
 branches:
