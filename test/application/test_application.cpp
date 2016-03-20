@@ -18,7 +18,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION(test_application);
 
 void test_application::setUp()
 {
-    const std::string test_process_name{ "test_application" };
+    const std::string test_process_name{ "dummy_application" };
     const std::string bin_directory{ "test/application" };
 
     Poco::Path process_abs_path;
