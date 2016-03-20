@@ -19,21 +19,20 @@ namespace smartaquarium {
  *        application.
  */
 class task : public Poco::Task {
-    public:
-
+public:
     /**
      * Task assign
      */
-     using work = std::function<void()>;
+    using work = std::function<void()>;
 
-     /**
+    /**
       * \brief Task constructor
       * \param _task_name task identifier
       * \param _work function to be executed in task
       */
-     task(const std::string& _task_name, work _work);
+    task(const std::string& _task_name, work _work);
 
-    private:
+private:
     /**
      * \brief Start task work
      */

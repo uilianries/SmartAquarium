@@ -48,7 +48,7 @@ void application::initialize(Application& self)
     if (!Poco::Path::find(env_path, process_name, config_path)) {
         std::ostringstream oss;
         oss << "ERROR: Could not find config file " << process_name
-             << " at path " << env_path;
+            << " at path " << env_path;
         throw std::runtime_error(oss.str());
     }
 

@@ -37,11 +37,12 @@ class application : public ServerApplication {
     * \param self ownership
     */
     void initialize(Application& self) override;
- protected:
+
+protected:
     /**
      * \brief Execute some task in main loop.
      */
-     virtual void execute();
+    virtual void execute();
 };
 } // namespace smartaquarium
 
