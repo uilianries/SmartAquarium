@@ -2,3 +2,4 @@ build/*
 *.swp
 *.log
 .idea
+doc/doxygen
