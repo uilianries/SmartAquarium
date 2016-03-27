@@ -8,4 +8,4 @@ file(GLOB HEADER_FILES
     *.hpp)
 
 add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
-target_link_libraries(${PROJECT_NAME} ${POCO_FOUNDATION} ${POCO_UTIL})
+target_link_libraries(${PROJECT_NAME} ${POCO_LIBRARIES})

@@ -5,6 +5,6 @@ add_executable(dummy_application dummy_application.cpp)
 target_link_libraries(dummy_application application)
 
 add_executable(${PROJECT_NAME} main.cpp ${PROJECT_NAME}.cpp)
-target_link_libraries(${PROJECT_NAME} ${POCO_FOUNDATION} ${CPPUNIT_LIBRARY})
+target_link_libraries(${PROJECT_NAME} ${POCO_FOUNDATION_LIB} ${CPPUNIT_LIBRARY})
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/dummy_application.xml DESTINATION ${CMAKE_BINARY_DIR})

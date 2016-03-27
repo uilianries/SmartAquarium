@@ -16,8 +16,11 @@ configure_file(
 
 include_directories("${PROJECT_BINARY_DIR}")
 
-find_library(POCO_FOUNDATION PocoFoundation)
-find_library(POCO_UTIL PocoUtil)
+find_library(POCO_FOUNDATION_LIB PocoFoundation)
+find_library(POCO_UTIL_LIB PocoUtil)
+find_library(IOTMQTTCLIEN_LIB IoTMQTTClient)
+
+set(POCO_LIBRARIES ${POCO_FOUNDATION_LIB} ${POCO_UTIL_LIB})
 
 add_subdirectory(src)
 add_subdirectory(test)
