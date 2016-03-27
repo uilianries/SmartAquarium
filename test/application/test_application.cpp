@@ -7,7 +7,6 @@
 #include <chrono>
 #include <thread>
 
-#include <cppunit/extensions/HelperMacros.h>
 #include <Poco/Path.h>
 #include <Poco/Environment.h>
 #include <Poco/File.h>
