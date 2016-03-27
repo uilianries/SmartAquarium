@@ -2,6 +2,13 @@
 <config>
 <ph_sensor>
     <pin>AIN1</pin>
+    <mqtt>
+        <server>m11.cloudmqtt.com</server>
+        <port>15347</port>
+        <clientid>PhSensor</clientid>
+        <username>ph_sensor</username>
+        <password>phsensor</password>
+    </mqtt>
     <breed>
         <betta>
             <min>6</min>

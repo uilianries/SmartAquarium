@@ -2,5 +2,12 @@
 <config>
 <heater>
     <pin>GPIO_65</pin>
+    <mqtt>
+        <server>m11.cloudmqtt.com</server>
+        <port>15347</port>
+        <clientid>Heater</clientid>
+        <username>heater</username>
+        <password>heater</password>
+    </mqtt>
 </heater>
 </config>

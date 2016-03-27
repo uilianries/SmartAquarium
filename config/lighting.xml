@@ -2,5 +2,12 @@
 <config>
 <lighting>
     <pin>GPIO_45</pin>
+    <mqtt>
+        <server>m11.cloudmqtt.com</server>
+        <port>15347</port>
+        <clientid>Lighting</clientid>
+        <username>lighting</username>
+        <password>lighting</password>
+    </mqtt>
 </lighting>
 </config>
