@@ -8,12 +8,20 @@
 #define SMARTAQUARIUM_APP_HPP_
 
 #include <string>
+#include <memory>
 
 #include <Poco/Util/ServerApplication.h>
 #include <Poco/Util/Application.h>
+#include <Poco/TaskManager.h>
+#include <Poco/FormattingChannel.h>
+#include <Poco/AutoPtr.h>
+#include <Poco/PatternFormatter.h>
+
+#include "IoT/MQTT/MQTTClient.h"
 
 using Poco::Util::ServerApplication;
 using Poco::Util::Application;
+using IoT::MQTT::MQTTClient;
 
 namespace smartaquarium {
 
@@ -38,11 +46,20 @@ class application : public ServerApplication {
     */
     void initialize(Application& self) override;
 
-protected:
+private:
     /**
-     * \brief Execute some task in main loop.
+     * \brief Launch task to create the MQTT client
      */
-    virtual void execute();
+    void launch_mqtt_client(Poco::TaskManager& _task_manager);
+
+    /**
+     * \brief Configure internal log to use formatted pattern
+     */
+    void configure_logger();
+
+    std::unique_ptr<MQTTClient> mqtt_client_; /**< MQTT Client handle */
+    Poco::AutoPtr<Poco::PatternFormatter> pattern_formatter_; /**< Pattern for log */
+    Poco::AutoPtr<Poco::FormattingChannel> formatting_channel_; /**< Formmatin Channel */
 };
 } // namespace smartaquarium
 

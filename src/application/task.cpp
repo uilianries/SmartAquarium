@@ -4,14 +4,15 @@
  *
  * \author Uilian Ries <uilianries@gmail.com>
  */
-#include "task.hpp"
+#include "application/task.hpp"
 
 #include <stdexcept>
 
 namespace smartaquarium {
 
-task::task(const std::string& _task_name, work _work)
+task::task(const std::string& _task_name, work _work, Poco::Logger& _logger)
     : Poco::Task(_task_name)
+    , logger_(_logger)
     , work_(_work)
 {
     if (_task_name.empty()) {
@@ -26,6 +27,10 @@ task::task(const std::string& _task_name, work _work)
 void task::runTask()
 {
     work_();
+}
+
+task::~task()
+{
 }
 
 } // namespace smartaquarium

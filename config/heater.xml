@@ -8,6 +8,7 @@
         <clientid>Heater</clientid>
         <username>heater</username>
         <password>heater</password>
+        <topic>smartaquarium/heater/+</topic>
     </mqtt>
 </heater>
 </config>

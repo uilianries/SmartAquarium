@@ -8,6 +8,8 @@
 		<clientid>ThermalSensor</clientid>
 		<username>thermal_sensor</username>
 		<password>thermalsensor</password>
+		<topic>smartaquarium/sensor/temperature/+</topic>
+		<actuatortopic>smartaquarium/heater</actuatortopic>
 	</mqtt>
 	<breed>
 		<betta>
