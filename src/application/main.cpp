@@ -6,6 +6,6 @@
  */
 #include <iostream>
 #include <Poco/Util/ServerApplication.h>
-#include "application.hpp"
+#include "application/application.hpp"
 
 POCO_SERVER_MAIN(smartaquarium::application)

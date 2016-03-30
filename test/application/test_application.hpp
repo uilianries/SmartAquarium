@@ -9,8 +9,7 @@
 
 #include <memory>
 
-#include <cppunit/TestCase.h>
-#include <cppunit/extensions/HelperMacros.h>
+#include <gtest/gtest.h>
 
 #include <Poco/Process.h>
 #include <Poco/AutoPtr.h>
@@ -18,27 +17,18 @@
 /**
  * \brief Test case for application library
  */
-class test_application : public CppUnit::TestCase {
-    CPPUNIT_TEST_SUITE(test_application);
-    CPPUNIT_TEST(start_application);
-    CPPUNIT_TEST_SUITE_END();
+class test_application : public testing::Test {
 
 public:
     /**
      * \brief Spawn application process
      */
-    void setUp() override;
+    void SetUp() override;
 
     /**
      * \brief Kill application process
      */
-    void tearDown() override;
-
-protected:
-    /**
-     * \brief Do nothing
-     */
-    void start_application();
+    void TearDown() override;
 
 private:
     std::unique_ptr<Poco::ProcessHandle> process_h_; /**< Process pid */

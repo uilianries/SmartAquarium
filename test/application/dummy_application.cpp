@@ -9,11 +9,4 @@
  * \brief Run application
  */
 class dummy_application : public smartaquarium::application {
-protected:
-    /**
-     * \brief Do nothing
-     */
-    void execute() override
-    {
-    }
 };

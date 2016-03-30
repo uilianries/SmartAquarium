@@ -2,6 +2,15 @@
 <config>
 <thermal_sensor>
     <pin>UART4_RXD</pin>
+	<mqtt>
+		<server>m11.cloudmqtt.com</server>
+		<port>15347</port>
+		<clientid>ThermalSensor</clientid>
+		<username>thermal_sensor</username>
+		<password>thermalsensor</password>
+		<topic>smartaquarium/sensor/temperature/+</topic>
+		<actuatortopic>smartaquarium/heater</actuatortopic>
+	</mqtt>
 	<breed>
 		<betta>
 			<min>22</min>

@@ -11,6 +11,7 @@
 #include <string>
 
 #include <Poco/Task.h>
+#include <Poco/Logger.h>
 
 namespace smartaquarium {
 
@@ -19,21 +20,29 @@ namespace smartaquarium {
  *        application.
  */
 class task : public Poco::Task {
-    public:
-
+public:
     /**
      * Task assign
      */
-     using work = std::function<void()>;
+    using work = std::function<void()>;
 
-     /**
+    /**
+     * \brief Virtual desctructor
+     */
+    virtual ~task();
+
+    /**
       * \brief Task constructor
       * \param _task_name task identifier
       * \param _work function to be executed in task
+      * \param _logger logger handle
       */
-     task(const std::string& _task_name, work _work);
+    task(const std::string& _task_name, work _work, Poco::Logger& _logger);
 
-    private:
+protected:
+    Poco::Logger& logger_; /**< Logger handler */
+
+private:
     /**
      * \brief Start task work
      */
@@ -44,4 +53,4 @@ class task : public Poco::Task {
 };
 } // namespace smartaquarium
 
-#endif // SMARTAQUARIU_TASK_HPP_
+#endif // SMARTAQUARIUM_TASK_HPP_

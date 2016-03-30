@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <config>
 <light_sensor>
+	<mqtt>
+		<server>m11.cloudmqtt.com</server>
+		<port>15347</port>
+		<clientid>LightSensor</clientid>
+		<username>light_sensor</username>
+		<password>lightsensor</password>
+		<topic>smartaquarium/sensor/light/+</topic>
+		<actuadortopic>smartaquarium/lighting/+</actuadortopic>
+	</mqtt>
+	<pin>AIN0</pin>
 <breed>
-    <pin>AIN0</pin>
 	<betta>
 		<level>low</level>
 	</betta>
