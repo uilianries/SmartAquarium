@@ -8,6 +8,7 @@
 #define SMARTAQUARIUM_TEST_APP_HPP_
 
 #include <memory>
+#include <csignal>
 
 #include <gtest/gtest.h>
 
@@ -32,6 +33,12 @@ public:
 
 private:
     std::unique_ptr<Poco::ProcessHandle> process_h_; /**< Process pid */
+
+    /**
+     * \brief Set signal received from dummy application
+     * \param signum signal number received
+     */
+    static void on_sigusr(int signum);
 };
 
 #endif // SMARTAQUARIUM_TEST_APP_HPP_

@@ -4,7 +4,7 @@
  *
  * \author Uilian Ries <uilianries@gmail.com>
  */
-#include "application/task.hpp"
+#include "task/task.hpp"
 
 #include <stdexcept>
 
