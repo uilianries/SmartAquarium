@@ -42,7 +42,7 @@ void application::configure_logger()
 void application::initialize(Application& self)
 {
     configure_logger();
-    loadConfiguration();
+    loadConfiguration(commandName() + ".xml");
     ServerApplication::initialize(self);
 }
 

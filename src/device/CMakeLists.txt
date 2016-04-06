@@ -10,4 +10,5 @@ target_link_libraries(device
                     application
                     ${MQTT_CLIENT_LIBRARIES}
                     ${POCO_FOUNDATION_LIB}
-                    task)
+                    task
+                    dl)
