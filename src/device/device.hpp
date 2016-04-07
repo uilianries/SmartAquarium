@@ -48,9 +48,9 @@ protected:
      */
     virtual void on_message_arrived(const IoT::MQTT::MessageArrivedEvent& event) = 0;
 
-private:
     std::unique_ptr<MQTTClient> mqtt_client_; /**< MQTT Client handle */
 
+private:
     /**
     * \brief Connect MQTT client
     */

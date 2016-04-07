@@ -25,6 +25,9 @@ script:
   - sudo make install
   - test/application/test_application
 
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
 branches:
   only:
     - develop
