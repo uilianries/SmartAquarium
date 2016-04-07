@@ -8,6 +8,22 @@ language: cpp
 
 compiler: gcc
 
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "CwSHEjnm3n4jc6OwsTErvQmojgNgpVTbB1Mz1L32w3IuRQFUeTzQGOnMOSa+oSzoKlOQO75vc4yjHXMLYxdRkWOltphF0fckhzsTIcMpl2XKxRCX/FlMZ+mHetLU5/5mgn5QkkguqTCeGNS+E/y61RkUXGSQS7+b5YebdajEkWft1ugkFboTB3a1U111uSWzfrQM24INyBOcB5RZtE+FONuHfIYkVbQZ7Kft9tMU9kMU4wmY0MqiWByVYj5L9mqdFyOgpgkQJfIasL3N3Lf+1jDU75mGx6zuBVASwup6FqsMpcLmDeL6DjZMjRrX+AGFoz0kBNeNh52wB/Hu9O//Fr7QY7QPvX7/BvayN1KcNkMXR5kxJlyXmnQwrgDMcnCauIcwITuJpiaqbdMaRLgbFJsBivstI4bRRzn45Xb9u4F8zTRa/qMVrP/4la2+ujbkpWsHDiRbFdDR7P25DMaXG9WXSliPyLHHr3Sjw/HY8a5AqxBWRsXRIuN4IYi/NSELlxHCxifdAw+OshXooSrtB+CgU/CZZWT+ue38iMnhQSXPhBTQIA3SRC2aGtgYFXkbXlq7O861wr8QqNbq4wInwe6MRjQMLtQM/rCL12iYcEhzVCrh4A80Z3j80VW21wrrnIOFYvBDNNQ+20PKmK9cvsWfwW/uMBQHtrBDBz4tzGc="
+
+addons:
+  coverity_scan:
+    project:
+      name: "uilianries/SmartAquarium"
+      description: "Build submitted via Travis CI"
+    notification_email: uilianries@gmail.com
+    build_command_prepend: "mkdir build && cd build && cmake .."
+    build_command:   "make"
+    branch_pattern: coverity_scan
+
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq -y cmake doxygen cppcheck clang-3.6 graphviz
