@@ -37,7 +37,7 @@ script:
   - script/doxygen.sh
   - script/cppcheck.sh
   - script/tidy.sh
-  - rm -rf build; mkdir build && cd build && cmake .. && make
+  - cd build
   - sudo make install
   - test/application/test_application
 
