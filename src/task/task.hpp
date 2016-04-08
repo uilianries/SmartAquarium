@@ -27,11 +27,6 @@ public:
     using work = std::function<void()>;
 
     /**
-     * \brief Virtual desctructor
-     */
-    virtual ~task();
-
-    /**
       * \brief Task constructor
       * \param _task_name task identifier
       * \param _work function to be executed in task
