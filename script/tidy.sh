@@ -20,10 +20,10 @@ check_program() {
 }
 
 execute_linter() {
-    ${linter} -checks=-*,clang-analyzer-*,-clang-analyzer-alpha* ${target} -- -std=c++11 -Isrc -I. &> ${log_file}
+    ${linter} -checks='*,-clang-analyzer-alpha.deadcode.UnreachableCode' ${target} -- -std=c++11 -Wall -Wextra -Werror -Wshadow -Itest -Isrc -I. &> ${log_file}
 
     cat ${log_file}
-    fgrep "warnings generated" ${log_file}
+    fgrep "warning:" ${log_file}
     if [ $? -eq 0 ]; then
         echo "ERROR: Linter found some warning"
         exit 1
