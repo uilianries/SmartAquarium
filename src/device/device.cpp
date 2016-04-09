@@ -15,6 +15,7 @@ void device::work()
 {
     create_connection();
     delegate_all();
+    initialize_device();
 }
 
 void device::create_connection()
@@ -25,6 +26,7 @@ void device::create_connection()
 
     log_connection_data(arguments, topic);
     auto server_uri = arguments.serverUri;
+    auto client_id = arguments.clientId;
 
     mqtt_client_ = std::move(MQTTClientFactory::CreateMQTTClient<MQTTClientFactory::ClientType::Paho>(std::move(arguments)));
     mqtt_client_->subscribe(std::move(topic), IoT::MQTT::QoS::AT_LEAST_ONCE);
@@ -33,6 +35,8 @@ void device::create_connection()
     }
 
     logger().information("MQTT Client is connected at " + server_uri);
+    connected_event_ += Poco::delegate(this, &device::on_connect);
+    connected_event_.notify(this, client_id);
 }
 
 void device::log_connection_data(const MQTTClientFactory::FactoryArguments& arguments, const std::string& topic)

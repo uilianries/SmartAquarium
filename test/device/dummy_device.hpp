@@ -1,18 +1,20 @@
 /**
  * \file
- * \brief Abstract sensor
+ * \brief Unit Test for Device
  * \author Uilian Ries <uilianries@gmail.com>
  */
-#ifndef SMARTAQUARIUM_SENSOR_HPP_
-#define SMARTAQUARIUM_SENSOR_HPP_
+#ifndef SMARTAQUARIUM_DUMMY_DEVICE_HPP_
+#define SMARTAQUARIUM_DUMMY_DEVICE_HPP_
 
 #include "device/device.hpp"
 
 namespace smartaquarium {
+namespace test {
+
 /**
- * \brief Abstract sensor
- */
-class sensor : public device {
+* \brief Unit Test for Device
+*/
+class dummy_device : public device {
     /**
      * \brief Treat disconnection event
      * \param event disconnection cause
@@ -38,16 +40,14 @@ class sensor : public device {
     void on_connect(const std::string& client_id) override;
 
     /**
-     * \brief Connect with gpio
+     * \brief Load configuration
      */
     void initialize_device() override;
 
-    /** Sensor measure unit */
-    typedef std::string measure_unit;
-
-    measure_unit measure_unit_; /**< Unit to append in value */
+    int token_ = -1; /**< Publish token */
 };
 
+} // namespace test
 } // namespace smartaquarium
 
-#endif // SMARTAQUARIUM_SENSOR_HPP_
+#endif // SMARTAQUARIUM_DUMMY_DEVICE_HPP_

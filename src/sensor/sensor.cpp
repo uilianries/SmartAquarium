@@ -23,4 +23,14 @@ void sensor::on_message_arrived(const IoT::MQTT::MessageArrivedEvent& event)
     logger().debug("Message received - topic: " + event.topic + " - payload: " + event.message.payload);
 }
 
+void sensor::on_connect(const std::string& client_id)
+{
+    logger().debug("Connected on broker with the client id " + client_id);
+}
+
+void sensor::initialize_device()
+{
+    logger().debug("Connect with GPIO");
+}
+
 } // namespace smartaquarium

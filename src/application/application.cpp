@@ -13,6 +13,7 @@ namespace smartaquarium {
 
 int application::main(const ArgVec& args)
 {
+    std::ignore = args;
     Poco::TaskManager task_manager;
 
     task_manager.start(new task("ChildWork", std::bind(&application::work, this), logger()));

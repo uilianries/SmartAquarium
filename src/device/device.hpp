@@ -27,7 +27,7 @@ public:
     /**
      * \brief Virtual destructor
      */
-    virtual ~device(){};
+    ~device() override = default;
 
 protected:
     /**
@@ -47,6 +47,17 @@ protected:
      * \param event message paylod
      */
     virtual void on_message_arrived(const IoT::MQTT::MessageArrivedEvent& event) = 0;
+
+    /**
+     * \brief Send connected signal
+     * \param client_id MQTT client id connected
+     */
+    virtual void on_connect(const std::string& client_id) = 0;
+
+    /**
+     * \brief Execute the initial configuration
+     */
+    virtual void initialize_device() = 0;
 
     std::unique_ptr<MQTTClient> mqtt_client_; /**< MQTT Client handle */
 
@@ -78,6 +89,8 @@ private:
      * \return Arguments from config file
      */
     std::tuple<MQTTClientFactory::FactoryArguments, std::string> load_arguments();
+
+    Poco::BasicEvent<const std::string> connected_event_; /**< Dispatch connected event */
 };
 } // namespace smartaquarium
 

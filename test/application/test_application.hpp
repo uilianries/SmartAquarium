@@ -8,37 +8,52 @@
 #define SMARTAQUARIUM_TEST_APP_HPP_
 
 #include <memory>
-#include <csignal>
 
 #include <gtest/gtest.h>
 
 #include <Poco/Process.h>
 #include <Poco/AutoPtr.h>
 
-/**
- * \brief Test case for application library
- */
-class test_application : public testing::Test {
+#include "util/signal_handler.hpp"
 
-public:
+namespace smartaquarium {
+namespace test {
     /**
-     * \brief Spawn application process
+     * \brief Test case for application library
      */
-    void SetUp() override;
+    class test_application : public testing::Test {
 
-    /**
-     * \brief Kill application process
-     */
-    void TearDown() override;
+    public:
+        /**
+         * \brief Spawn application process
+         */
+        void SetUp() override;
 
-private:
-    std::unique_ptr<Poco::ProcessHandle> process_h_; /**< Process pid */
+        /**
+         * \brief Kill application process
+         */
+        void TearDown() override;
 
-    /**
-     * \brief Set signal received from dummy application
-     * \param signum signal number received
-     */
-    static void on_sigusr(int signum);
-};
+    protected:
+        /**
+         * \brief Returns SIGUSR1 flag
+         * \return signal received from system
+         */
+        bool signal_received() const noexcept;
 
-#endif // SMARTAQUARIUM_TEST_APP_HPP_
+    private:
+        std::unique_ptr<Poco::ProcessHandle> process_h_; /**< Process pid */
+        std::unique_ptr<signal_handler> signal_handler_; /**< Get USR1 signal */
+        bool signal_received_ = false; /**< Signal USR1 was received */
+
+        /**
+         * \brief Receive SIGUSR1 signal
+         * \param signal POSIX signal id
+         */
+        void on_sigusr(const int& signal);
+    };
+
+} // namespace test
+} // namespace smartaquarium
+
+#endif // SMARTAi}QUARIUM_TEST_APP_HPP_

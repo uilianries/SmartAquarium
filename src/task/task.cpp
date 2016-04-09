@@ -19,9 +19,6 @@ task::task(const std::string& _task_name, work _work, Poco::Logger& _logger)
 
 void task::runTask()
 {
-    if (work_) {
-        work_();
-    }
 }
 
 } // namespace smartaquarium

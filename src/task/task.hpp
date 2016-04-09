@@ -16,7 +16,7 @@
 namespace smartaquarium {
 
 /**
- * \brief Start an async task in middle the 
+ * \brief Start an async task in middle the
  *        application.
  */
 class task : public Poco::Task {

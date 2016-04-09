@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+<dummy_device>
+	<mqtt>
+		<server>127.0.0.1</server>
+		<port>1883</port>
+		<clientid>DummyDevice</clientid>
+		<username></username>
+		<password></password>
+		<topic>test/dummy</topic>
+		<target>test/app</target>
+	</mqtt>
+    <pid>0</pid>
+</dummy_device>
+</config>

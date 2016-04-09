@@ -8,7 +8,6 @@
 #define SMARTAQUARIUM_APP_HPP_
 
 #include <Poco/Util/ServerApplication.h>
-#include <Poco/Util/Application.h>
 #include <Poco/FormattingChannel.h>
 #include <Poco/PatternFormatter.h>
 
@@ -28,7 +27,7 @@ public:
     /**
      * \brief virtual destructor
      */
-    virtual ~application(){};
+    ~application() override = default;
 
 protected:
     /**
