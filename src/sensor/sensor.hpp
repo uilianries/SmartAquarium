@@ -33,9 +33,9 @@ class sensor : public device {
 
     /**
      * \brief On connect event from broker
-     * \param client_id client name connected on broker
+     * \param event placeholder
      */
-    void on_connect(const std::string& client_id) override;
+    void on_connect(const IoT::MQTT::ConnectionDoneEvent& event) override;
 
     /**
      * \brief Connect with gpio

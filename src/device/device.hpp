@@ -12,6 +12,7 @@
 #include <Poco/TaskManager.h>
 #include <IoT/MQTT/MQTTClient.h>
 #include <IoT/MQTT/MQTTClientFactory.h>
+#include <iostream>
 
 #include "application/application.hpp"
 
@@ -27,7 +28,7 @@ public:
     /**
      * \brief Virtual destructor
      */
-    virtual ~device() = default;
+    ~device() override = default;
 
 protected:
     /**
@@ -50,9 +51,9 @@ protected:
 
     /**
      * \brief Send connected signal
-     * \param client_id MQTT client id connected
+     * \param event placeholder
      */
-    virtual void on_connect(const std::string& client_id) = 0;
+    virtual void on_connect(const IoT::MQTT::ConnectionDoneEvent& event) = 0;
 
     /**
      * \brief Execute the initial configuration
@@ -89,8 +90,6 @@ private:
      * \return Arguments from config file
      */
     std::tuple<MQTTClientFactory::FactoryArguments, std::string> load_arguments();
-
-    Poco::BasicEvent<const std::string> connected_event_; /**< Dispatch connected event */
 };
 } // namespace smartaquarium
 

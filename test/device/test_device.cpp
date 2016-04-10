@@ -34,7 +34,7 @@ namespace test {
         mqtt_client_ = IoT::MQTT::MQTTClientFactory::CreateMQTTClient<IoT::MQTT::MQTTClientFactory::ClientType::Paho>({ broker_address, "TestDevice", {} });
         mqtt_client_->messageArrived += Poco::delegate(this, &test_device::receive_message);
 
-        signal_handler_.reset(new signal_handler(SIGUSR1));
+        signal_handler_.reset(new signal_handler({ SIGUSR1, SIGUSR2 }));
         signal_handler_->on_signal_arrived += Poco::delegate(this, &test_device::on_signal);
 
         Poco::Path dummy_process_path = "test/device/dummy_device";
@@ -55,24 +55,62 @@ namespace test {
 
     void test_device::on_signal(const int& sig)
     {
-        if (sig == SIGUSR1) {
+        switch (sig) {
+        case SIGUSR1:
             dummy_connected_ = true;
+            break;
+        case SIGUSR2:
+            dummy_connected_ = false;
+            break;
+        default:
+            break;
         }
     }
 
-    TEST_F(test_device, SendAndWait)
+    void test_device::connect()
     {
         mqtt_client_->subscribe(xml_configuration_->getString("dummy_device.mqtt.target"), IoT::MQTT::QoS::AT_LEAST_ONCE);
         ASSERT_TRUE(mqtt_client_->connected());
 
         ASSERT_TRUE(wait_for(std::chrono::seconds(5), [this]() { return dummy_connected_; }));
+    }
 
-        const auto& client_id = xml_configuration_->getString("dummy_device.mqtt.clientid");
-        mqtt_client_->publish(xml_configuration_->getString("dummy_device.mqtt.topic"), client_id, IoT::MQTT::QoS::AT_LEAST_ONCE);
+    void test_device::publish(const std::string& payload)
+    {
+        mqtt_client_->publish(xml_configuration_->getString("dummy_device.mqtt.topic"), payload, IoT::MQTT::QoS::AT_LEAST_ONCE);
+    }
 
+    void test_device::wait_for_publish_answer(const std::string& expected_answer)
+    {
         ASSERT_TRUE(wait_for(std::chrono::seconds(5), [this]() { return message_received_; }));
 
-        ASSERT_EQ(client_id, arrived_event_.message.payload);
+        ASSERT_EQ(expected_answer, arrived_event_.message.payload);
+    }
+
+    void test_device::disconnect()
+    {
+        publish("disconnect");
+    }
+
+    void test_device::wait_for_disconnect()
+    {
+        ASSERT_TRUE(wait_for(std::chrono::seconds(5), [this]() { return !dummy_connected_; }));
+    }
+
+    TEST_F(test_device, SendAndWait)
+    {
+        connect();
+        publish(__DATE__);
+        wait_for_publish_answer(__DATE__);
+    }
+
+    TEST_F(test_device, Disconnect)
+    {
+        connect();
+        publish(__FILE__);
+        wait_for_publish_answer(__FILE__);
+        disconnect();
+        wait_for_disconnect();
     }
 
 } // namespace test

@@ -8,6 +8,7 @@
 #define SMARTAQUARIUM_SIGNAL_HANDLER_HPP
 
 #include <signal.h>
+#include <initializer_list>
 #include <Poco/BasicEvent.h>
 
 namespace smartaquarium {
@@ -24,6 +25,11 @@ namespace test {
          * \param sig POSIX signal id
          */
         explicit signal_handler(int sig);
+
+        /**
+         * \brief Observer a range of signals
+         */
+        signal_handler(const std::initializer_list<int>& sig_list);
 
         /**
          * \brief Launch when the observed signal arrives

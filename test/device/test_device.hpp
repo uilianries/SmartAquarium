@@ -35,17 +35,37 @@ namespace test {
         void TearDown() override;
 
     protected:
-        std::unique_ptr<IoT::MQTT::MQTTClient> mqtt_client_;    /**< MQTT client that sends message to dummy*/
-        std::unique_ptr<Poco::ProcessHandle> process_h_;    /**< dummy process handler */
-        Poco::AutoPtr<Poco::Util::XMLConfiguration> xml_configuration_; /** Load XML file */
-        IoT::MQTT::MessageArrivedEvent arrived_event_;  /**< Event to be treated */
-        bool dummy_connected_ = false; /**< sentinel to broker connection */
-        bool message_received_ = false; /**< Message from broker was received*/
-
         /**
          * \brief Receives message from dummy application
          */
         void receive_message(const IoT::MQTT::MessageArrivedEvent& event);
+
+        /**
+         * \brief Connect on broker
+         */
+        void connect();
+
+        /**
+         * \brief Connect on broker and send a message
+         * \param payload Message to be sent
+         */
+        void publish(const std::string& payload);
+
+        /**
+         * \brief Wait for an answer from the dummy process
+         * \param expected_answer To equate with the payload
+         */
+        void wait_for_publish_answer(const std::string& expected_answer);
+
+        /**
+         * \brief Request for broker to MQTT client reset
+         */
+        void disconnect();
+
+        /**
+         * \brief Wait for disconnect event, after send request
+         */
+        void wait_for_disconnect();
 
     private:
         /**
@@ -55,6 +75,12 @@ namespace test {
         void on_signal(const int& sig);
 
         std::unique_ptr<signal_handler> signal_handler_; /**> receives POSIX signal */
+        std::unique_ptr<IoT::MQTT::MQTTClient> mqtt_client_; /**< MQTT client that sends message to dummy*/
+        std::unique_ptr<Poco::ProcessHandle> process_h_; /**< dummy process handler */
+        Poco::AutoPtr<Poco::Util::XMLConfiguration> xml_configuration_; /** Load XML file */
+        IoT::MQTT::MessageArrivedEvent arrived_event_; /**< Event to be treated */
+        bool dummy_connected_ = false; /**< sentinel to broker connection */
+        bool message_received_ = false; /**< Message from broker was received*/
     };
 
 } // namespace test

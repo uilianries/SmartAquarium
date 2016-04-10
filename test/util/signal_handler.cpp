@@ -18,10 +18,17 @@ namespace test {
         }
     }
 
-    signal_handler::signal_handler(int sig)
+    signal_handler::signal_handler(const std::initializer_list<int>& sig_list)
     {
         handler = this;
-        signal(sig, &signal_handler::on_signal);
+        for (const auto& sig : sig_list) {
+            signal(sig, &signal_handler::on_signal);
+        }
+    }
+
+    signal_handler::signal_handler(int sig)
+        : signal_handler({ sig })
+    {
     }
 
 } // namespace test

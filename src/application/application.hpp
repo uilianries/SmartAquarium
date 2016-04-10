@@ -27,7 +27,7 @@ public:
     /**
      * \brief virtual destructor
      */
-    virtual ~application() = default;
+    ~application() override = default;
 
 protected:
     /**

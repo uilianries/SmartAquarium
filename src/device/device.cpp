@@ -35,8 +35,10 @@ void device::create_connection()
     }
 
     logger().information("MQTT Client is connected at " + server_uri);
-    connected_event_ += Poco::delegate(this, &device::on_connect);
-    connected_event_.notify(this, client_id);
+
+    mqtt_client_->connectionDone += Poco::delegate(this, &device::on_connect);
+    IoT::MQTT::ConnectionDoneEvent event;
+    mqtt_client_->connectionDone.notify(this, event);
 }
 
 void device::log_connection_data(const MQTTClientFactory::FactoryArguments& arguments, const std::string& topic)
