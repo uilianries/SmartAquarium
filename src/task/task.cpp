@@ -6,8 +6,6 @@
  */
 #include "task/task.hpp"
 
-#include <stdexcept>
-
 namespace smartaquarium {
 
 task::task(const std::string& _task_name, work _work, Poco::Logger& _logger)

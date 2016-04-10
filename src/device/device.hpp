@@ -27,7 +27,7 @@ public:
     /**
      * \brief Virtual destructor
      */
-    ~device() override = default;
+    virtual ~device() = default;
 
 protected:
     /**
