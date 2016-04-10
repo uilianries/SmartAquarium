@@ -11,6 +11,7 @@
 #include <Poco/Path.h>
 #include <Poco/File.h>
 #include <Poco/Util/SystemConfiguration.h>
+#include <unordered_map>
 
 #include "util/util.hpp"
 
@@ -55,16 +56,12 @@ namespace test {
 
     void test_device::on_signal(const int& sig)
     {
-        switch (sig) {
-        case SIGUSR1:
-            dummy_connected_ = true;
-            break;
-        case SIGUSR2:
-            dummy_connected_ = false;
-            break;
-        default:
-            break;
-        }
+        static const std::unordered_map<int, std::function<void()>> actions = {
+                { SIGUSR1, [this] () { dummy_connected_ = true; }},
+                { SIGUSR2, [this] () { dummy_connected_ = false; }}
+        };
+
+        actions.at(sig)();
     }
 
     void test_device::connect()

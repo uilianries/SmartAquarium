@@ -30,9 +30,6 @@ void device::create_connection()
 
     mqtt_client_ = std::move(MQTTClientFactory::CreateMQTTClient<MQTTClientFactory::ClientType::Paho>(std::move(arguments)));
     mqtt_client_->subscribe(std::move(topic), IoT::MQTT::QoS::AT_LEAST_ONCE);
-    if (!mqtt_client_->connected()) {
-        throw std::runtime_error("Could not connect on server");
-    }
 
     logger().information("MQTT Client is connected at " + server_uri);
 
