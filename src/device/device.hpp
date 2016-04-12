@@ -10,6 +10,7 @@
 #include <tuple>
 
 #include <Poco/TaskManager.h>
+#include <Poco/URI.h>
 #include <IoT/MQTT/MQTTClient.h>
 #include <IoT/MQTT/MQTTClientFactory.h>
 #include <iostream>
@@ -20,11 +21,37 @@ using IoT::MQTT::MQTTClient;
 using IoT::MQTT::MQTTClientFactory;
 
 namespace smartaquarium {
+
+/**
+ * \brief Options load from xml
+ */
+struct device_options {
+
+    /**
+     * \brief MQTT client options
+     */
+    struct mqtt_options {
+        Poco::URI server; /**< Broker address */
+        std::string port; /**< Broker port */
+        std::string client_id; /**< MQTT client id */
+        std::string username; /**< User name for broker authentication */
+        std::string password; /**< Password for broker authentication */
+        std::string topic; /**< Initial client topic */
+    };
+
+    mqtt_options mqtt; /**< MQTT client options member */
+    std::string pin; /**< GPIO pin */
+};
+
 /**
  * \brief Abstract device
  */
 class device : public application {
 public:
+    /**
+     * \brief default constructor
+     */
+    device() = default;
     /**
      * \brief Virtual destructor
      */
@@ -60,7 +87,17 @@ protected:
      */
     virtual void initialize_device() = 0;
 
-    std::unique_ptr<MQTTClient> mqtt_client_; /**< MQTT Client handle */
+    /**
+     * \brief Retrieve MQTT client
+     * \return MQTT client instance
+     */
+    MQTTClient& mqtt_client();
+
+    /**
+     * \brief Get configuration options
+     * \return Options load from config xml
+     */
+    const smartaquarium::device_options& device_options() const;
 
 private:
     /**
@@ -74,9 +111,19 @@ private:
     void delegate_all();
 
     /**
+     * \brief Create MQTT client
+     */
+    void create_client();
+
+    /**
      * \brief Start MQTT client
      */
     void create_connection();
+
+    /**
+     * \brief Load internal options
+     */
+    void load_options();
 
     /**
      * \brief Log for debug
@@ -90,6 +137,9 @@ private:
      * \return Arguments from config file
      */
     std::tuple<MQTTClientFactory::FactoryArguments, std::string> load_arguments();
+
+    std::unique_ptr<MQTTClient> mqtt_client_; /**< MQTT Client handle */
+    smartaquarium::device_options device_options_; /**< Internal config */
 };
 } // namespace smartaquarium
 

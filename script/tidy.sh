@@ -20,7 +20,7 @@ check_program() {
 }
 
 execute_linter() {
-    ${linter} -checks='*,-clang-analyzer-alpha.deadcode.UnreachableCode' ${target} -- -std=c++11 -Wall -Wextra -Werror -Wshadow -Itest -Isrc -I. &> ${log_file}
+    ${linter} -checks='*,-clang-analyzer-alpha.deadcode.UnreachableCode,-google-explicit-constructor' ${target} -- -std=c++11 -Wall -Wextra -Werror -Wshadow -Itest -Isrc -I. &> ${log_file}
 
     cat ${log_file}
     fgrep "warning:" ${log_file}

@@ -22,6 +22,13 @@ find_library(POCO_FOUNDATION_LIB PocoFoundation)
 find_library(POCO_UTIL_LIB PocoUtil)
 find_library(IOTMQTTCLIENT_LIB IoTMQTTClient)
 find_library(PAHO_LIB Paho)
+find_library(BBBGPIO_LIB bbbgpio)
+
+find_package(Boost
+        COMPONENTS
+        system
+        filesystem
+        REQUIRED)
 
 set(POCO_LIBRARIES ${POCO_FOUNDATION_LIB} ${POCO_UTIL_LIB})
 set(MQTT_CLIENT_LIBRARIES ${IOTMQTTCLIENT_LIB} ${PAHO_LIB} crypto ssl pthread)

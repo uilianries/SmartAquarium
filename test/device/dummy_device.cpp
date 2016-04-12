@@ -17,8 +17,8 @@ namespace test {
     void dummy_device::initialize_device()
     {
         auto ss = config().getString("dummy_device.mqtt.topic");
-        mqtt_client_->subscribe(ss, IoT::MQTT::QoS::AT_LEAST_ONCE);
-        assert(mqtt_client_->connected());
+        mqtt_client().subscribe(ss, IoT::MQTT::QoS::AT_LEAST_ONCE);
+        assert(mqtt_client().connected());
     }
 
     void dummy_device::on_disconnect(const IoT::MQTT::ConnectionLostEvent& event)
@@ -37,11 +37,11 @@ namespace test {
         auto target = config().getString("dummy_device.mqtt.target");
 
         if (event.message.payload == "disconnect") {
-            mqtt_client_->disconnect(10000);
-            mqtt_client_->connectionLost(this, IoT::MQTT::ConnectionLostEvent());
+            mqtt_client().disconnect(10000);
+            mqtt_client().connectionLost(this, IoT::MQTT::ConnectionLostEvent());
         }
         else {
-            token_ = mqtt_client_->publish(target, event.message.payload, IoT::MQTT::QoS::AT_LEAST_ONCE);
+            token_ = mqtt_client().publish(target, event.message.payload, IoT::MQTT::QoS::AT_LEAST_ONCE);
         }
     }
 

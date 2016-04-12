@@ -29,7 +29,7 @@ namespace test {
         /**
          * \brief Observer a range of signals
          */
-        signal_handler(const std::initializer_list<int>& sig_list);
+        explicit signal_handler(const std::initializer_list<int>& sig_list);
 
         /**
          * \brief Launch when the observed signal arrives

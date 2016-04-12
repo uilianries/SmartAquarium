@@ -6,6 +6,9 @@
 #ifndef SMARTAQUARIUM_SENSOR_HPP_
 #define SMARTAQUARIUM_SENSOR_HPP_
 
+#include <memory>
+#include <unordered_set>
+#include <bbbgpio/stream.hpp>
 #include "device/device.hpp"
 
 namespace smartaquarium {
@@ -42,10 +45,14 @@ class sensor : public device {
      */
     void initialize_device() override;
 
-    /** Sensor measure unit */
-    typedef std::string measure_unit;
+    /**
+     * \brief Receive event from BBB GPIO
+     * \param pin_level value changed
+     */
+    void on_pin_level_event(bbb::gpio::pin_level pin_level);
 
-    measure_unit measure_unit_; /**< Unit to append in value */
+    std::unique_ptr<bbb::gpio::istream> input_pin_; /**< Read GPIO */
+    std::unordered_set<int> tokens_; /**< Published tokens */
 };
 
 } // namespace smartaquarium

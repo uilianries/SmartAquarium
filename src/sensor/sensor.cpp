@@ -5,6 +5,8 @@
  */
 
 #include "sensor/sensor.hpp"
+#include "bbbgpio/string.hpp"
+#include <boost/lexical_cast.hpp>
 
 namespace smartaquarium {
 
@@ -16,6 +18,7 @@ void sensor::on_disconnect(const IoT::MQTT::ConnectionLostEvent& event)
 void sensor::on_message_delivered(const IoT::MQTT::MessageDeliveredEvent& event)
 {
     logger().debug("Message delivered by token " + std::to_string(event.token));
+    tokens_.erase(event.token);
 }
 
 void sensor::on_message_arrived(const IoT::MQTT::MessageArrivedEvent& event)
@@ -25,13 +28,22 @@ void sensor::on_message_arrived(const IoT::MQTT::MessageArrivedEvent& event)
 
 void sensor::on_connect(const IoT::MQTT::ConnectionDoneEvent& event)
 {
-    (void)event;
-    logger().debug("Connected on broker with the client id ");
+    std::ignore = event;
+    logger().debug("Connected on broker");
 }
 
 void sensor::initialize_device()
 {
-    logger().debug("Connect with GPIO");
+    auto pin = device_options().pin;
+    logger().debug("Connect with GPIO " + pin);
+    input_pin_.reset(new bbb::gpio::istream(boost::lexical_cast<unsigned>(pin)));
+    input_pin_->delegate_event(std::bind(&sensor::on_pin_level_event, this, std::placeholders::_1));
+}
+
+void sensor::on_pin_level_event(bbb::gpio::pin_level pin_level)
+{
+    tokens_.insert(mqtt_client().publish(device_options().mqtt.topic, bbb::gpio::to_string(pin_level),
+        IoT::MQTT::QoS::AT_LEAST_ONCE));
 }
 
 } // namespace smartaquarium

@@ -7,6 +7,8 @@
 #include "application.hpp"
 
 #include <Poco/TaskManager.h>
+#include <Poco/Environment.h>
+#include <Poco/File.h>
 #include "task/task.hpp"
 
 namespace smartaquarium {
@@ -28,7 +30,6 @@ int application::main(const ArgVec& args)
 
 void application::configure_logger()
 {
-// @TODO - Think about use syslog instead console
 #ifdef DEBUG
     logger().setLevel("debug");
     Poco::Logger::root().setLevel("debug");
@@ -43,7 +44,7 @@ void application::configure_logger()
 void application::initialize(Application& self)
 {
     configure_logger();
-    loadConfiguration(commandName() + ".xml");
+    loadConfiguration();
     ServerApplication::initialize(self);
 }
 

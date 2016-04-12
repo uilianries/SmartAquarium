@@ -8,7 +8,7 @@ set(SENSOR_APP_LIST thermal_sensor light_sensor ph_sensor)
 
 foreach(APP ${SENSOR_APP_LIST})
 add_executable(${APP} ${SOURCE_FILES})
-target_link_libraries(${APP} device)
+target_link_libraries(${APP} device ${BBBGPIO_LIB} ${Boost_LIBRARIES})
 
 install(TARGETS ${APP}
         DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)

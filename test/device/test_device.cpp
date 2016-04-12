@@ -56,9 +56,9 @@ namespace test {
 
     void test_device::on_signal(const int& sig)
     {
-        static const std::unordered_map<int, std::function<void()>> actions = {
-                { SIGUSR1, [this] () { dummy_connected_ = true; }},
-                { SIGUSR2, [this] () { dummy_connected_ = false; }}
+        static const std::unordered_map<int, std::function<void()> > actions = {
+            { SIGUSR1, [this]() { dummy_connected_ = true; } },
+            { SIGUSR2, [this]() { dummy_connected_ = false; } }
         };
 
         actions.at(sig)();
