@@ -93,14 +93,6 @@ void device::load_options()
 {
     const auto& command_name = config().getString("application.name");
 
-    auto get_config = [this](const std::string& value) {
-        if (options().hasOption(value)) {
-            std::ostringstream oss;
-            oss << "ERROR: Could not load config " << value;
-            throw std::invalid_argument(oss.str());
-        }
-        return config().getString(value);
-    };
     device_options_.pin = get_config(command_name + ".pin");
 
     const auto mqtt_element = command_name + ".mqtt.";
@@ -112,5 +104,15 @@ void device::load_options()
     device_options_.mqtt.password = get_config(mqtt_element + "password");
     device_options_.mqtt.topic = get_config(mqtt_element + "topic");
 }
+
+    std::string device::get_config(const std::string &option) const {
+        if (!config().hasOption(option)) {
+            std::ostringstream oss;
+            oss << "ERROR: Could not load config " << option;
+            throw std::invalid_argument(oss.str());
+        }
+        return config().getString(option);
+    }
+
 
 } // namespace smartaquarium

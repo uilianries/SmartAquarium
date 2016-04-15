@@ -99,6 +99,14 @@ protected:
      */
     const smartaquarium::device_options& device_options() const;
 
+    /**
+     * \brief Check if options is valid and get the value.
+     *        If the option is invalid, then throw invalid_argument
+     * \param option Configuration option in config file
+     * \return option value
+     */
+    std::string get_config(const std::string& option) const;
+
 private:
     /**
     * \brief Connect MQTT client

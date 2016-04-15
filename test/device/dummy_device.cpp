@@ -12,6 +12,10 @@ namespace test {
 
     void dummy_device::initialize_device()
     {
+        try {
+            get_config("abnormal_option");
+            abort();
+        } catch (const std::invalid_argument&) {}
         assert(mqtt_client().connected());
     }
 
@@ -32,8 +36,7 @@ namespace test {
         if (event.message.payload == "disconnect") {
             token_ = mqtt_client().publish(topic, device_options().pin, IoT::MQTT::QoS::AT_LEAST_ONCE);
             mqtt_client().connectionLost(this, IoT::MQTT::ConnectionLostEvent());
-        }
-        else {
+        } else {
             token_ = mqtt_client().publish(topic, event.message.payload, IoT::MQTT::QoS::AT_LEAST_ONCE);
         }
     }
