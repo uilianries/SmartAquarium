@@ -49,9 +49,9 @@ class sensor : public device {
      * \brief Receive event from BBB GPIO
      * \param pin_level value changed
      */
-    void on_pin_level_event(bbb::gpio::pin_level pin_level);
+    void on_pin_level_event(bbb::gpio::analog_level pin_level);
 
-    std::unique_ptr<bbb::gpio::istream> input_pin_; /**< Read GPIO */
+    std::unique_ptr<bbb::gpio::analog_istream> input_pin_; /**< Read GPIO */
     std::unordered_set<int> tokens_; /**< Published tokens */
 };
 

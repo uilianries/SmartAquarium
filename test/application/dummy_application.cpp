@@ -6,7 +6,6 @@
 #include "application/dummy_application.hpp"
 
 #include <signal.h>
-#include <sys/types.h>
 
 namespace smartaquarium {
 namespace test {

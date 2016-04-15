@@ -92,19 +92,25 @@ const smartaquarium::device_options& device::device_options() const
 void device::load_options()
 {
     const auto& command_name = config().getString("application.name");
+
+    auto get_config = [this](const std::string& value) {
+        if (options().hasOption(value)) {
+            std::ostringstream oss;
+            oss << "ERROR: Could not load config " << value;
+            throw std::invalid_argument(oss.str());
+        }
+        return config().getString(value);
+    };
+    device_options_.pin = get_config(command_name + ".pin");
+
     const auto mqtt_element = command_name + ".mqtt.";
 
-    if (!config().has(command_name)) {
-        throw std::runtime_error("Could not load xml file config");
-    }
-
-    device_options_.pin = config().getString(command_name + ".pin");
-    device_options_.mqtt.server = config().getString(mqtt_element + "server");
-    device_options_.mqtt.port = config().getString(mqtt_element + "port");
-    device_options_.mqtt.client_id = config().getString(mqtt_element + "clientid");
-    device_options_.mqtt.username = config().getString(mqtt_element + "username");
-    device_options_.mqtt.password = config().getString(mqtt_element + "password");
-    device_options_.mqtt.topic = config().getString(mqtt_element + "topic");
+    device_options_.mqtt.server = get_config(mqtt_element + "server");
+    device_options_.mqtt.port = get_config(mqtt_element + "port");
+    device_options_.mqtt.client_id = get_config(mqtt_element + "clientid");
+    device_options_.mqtt.username = get_config(mqtt_element + "username");
+    device_options_.mqtt.password = get_config(mqtt_element + "password");
+    device_options_.mqtt.topic = get_config(mqtt_element + "topic");
 }
 
 } // namespace smartaquarium

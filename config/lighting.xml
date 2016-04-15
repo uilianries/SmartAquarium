@@ -3,11 +3,11 @@
 <lighting>
     <pin>GPIO_45</pin>
     <mqtt>
-        <server>m11.cloudmqtt.com</server>
-        <port>15347</port>
+        <server>127.0.0.1</server>
+        <port>1883</port>
         <clientid>Lighting</clientid>
-        <username>lighting</username>
-        <password>lighting</password>
+        <username></username>
+        <password></password>
         <topic>smartaquarium/lighting/+</topic>
     </mqtt>
 </lighting>

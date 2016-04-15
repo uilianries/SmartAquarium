@@ -3,11 +3,11 @@
 <heater>
     <pin>GPIO_65</pin>
     <mqtt>
-        <server>m11.cloudmqtt.com</server>
-        <port>15347</port>
+        <server>127.0.0.1</server>
+        <port>1883</port>
         <clientid>Heater</clientid>
-        <username>heater</username>
-        <password>heater</password>
+        <username></username>
+        <password></password>
         <topic>smartaquarium/heater/+</topic>
     </mqtt>
 </heater>

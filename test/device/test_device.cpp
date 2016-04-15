@@ -25,21 +25,15 @@ namespace test {
         xml_configuration_.assign(new Poco::Util::XMLConfiguration(xml_config_file));
         auto broker_address = xml_configuration_->getString("dummy_device.mqtt.server") + ":" + xml_configuration_->getString("dummy_device.mqtt.port");
 
-        Poco::AutoPtr<Poco::Util::SystemConfiguration> system_configuration(new Poco::Util::SystemConfiguration());
-        auto current_pid = system_configuration->getInt("system.pid");
-        xml_configuration_->setInt("dummy_device.pid", current_pid);
-        xml_configuration_->save(xml_config_file);
-
         // TODO(uilianries@gmail.com): move gtest main to util
 
         mqtt_client_ = IoT::MQTT::MQTTClientFactory::CreateMQTTClient<IoT::MQTT::MQTTClientFactory::ClientType::Paho>({ broker_address, "TestDevice", {} });
         mqtt_client_->messageArrived += Poco::delegate(this, &test_device::receive_message);
-
-        signal_handler_.reset(new signal_handler({ SIGUSR1, SIGUSR2 }));
-        signal_handler_->on_signal_arrived += Poco::delegate(this, &test_device::on_signal);
+        connect();
 
         Poco::Path dummy_process_path = "test/device/dummy_device";
         process_h_ = launch_process(dummy_process_path);
+        ASSERT_NE(0, process_h_->id());
     }
 
     void test_device::TearDown()
@@ -54,22 +48,11 @@ namespace test {
         arrived_event_ = event;
     }
 
-    void test_device::on_signal(const int& sig)
-    {
-        static const std::unordered_map<int, std::function<void()> > actions = {
-            { SIGUSR1, [this]() { dummy_connected_ = true; } },
-            { SIGUSR2, [this]() { dummy_connected_ = false; } }
-        };
-
-        actions.at(sig)();
-    }
-
     void test_device::connect()
     {
-        mqtt_client_->subscribe(xml_configuration_->getString("dummy_device.mqtt.target"), IoT::MQTT::QoS::AT_LEAST_ONCE);
+        auto topic = xml_configuration_->getString("dummy_device.mqtt.target");
+        mqtt_client_->subscribe(topic, IoT::MQTT::QoS::AT_LEAST_ONCE);
         ASSERT_TRUE(mqtt_client_->connected());
-
-        ASSERT_TRUE(wait_for(std::chrono::seconds(5), [this]() { return dummy_connected_; }));
     }
 
     void test_device::publish(const std::string& payload)
@@ -80,7 +63,7 @@ namespace test {
     void test_device::wait_for_publish_answer(const std::string& expected_answer)
     {
         ASSERT_TRUE(wait_for(std::chrono::seconds(5), [this]() { return message_received_; }));
-
+        message_received_ = false;
         ASSERT_EQ(expected_answer, arrived_event_.message.payload);
     }
 
@@ -91,21 +74,25 @@ namespace test {
 
     void test_device::wait_for_disconnect()
     {
-        ASSERT_TRUE(wait_for(std::chrono::seconds(5), [this]() { return !dummy_connected_; }));
+        ASSERT_TRUE(wait_for(std::chrono::seconds(5), [this]() { return message_received_; }));
+        message_received_ = false;
+        const auto& pin = xml_configuration_->getString("dummy_device.pin");
+        ASSERT_EQ(pin, arrived_event_.message.payload);
     }
 
-    TEST_F(test_device, SendAndWait)
+    void test_device::wait_for_dummy_device_connection()
     {
-        connect();
+        ASSERT_TRUE(wait_for(std::chrono::seconds(5), [this]() { return message_received_; }));
+        message_received_ = false;
+        const auto& client_id = xml_configuration_->getString("dummy_device.mqtt.clientid");
+        ASSERT_EQ(client_id, arrived_event_.message.payload);
+    }
+
+    TEST_F(test_device, ConnectReceiveSendClose)
+    {
+        wait_for_dummy_device_connection();
         publish(__DATE__);
         wait_for_publish_answer(__DATE__);
-    }
-
-    TEST_F(test_device, Disconnect)
-    {
-        connect();
-        publish(__FILE__);
-        wait_for_publish_answer(__FILE__);
         disconnect();
         wait_for_disconnect();
     }

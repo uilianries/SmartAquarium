@@ -10,6 +10,6 @@
 		<topic>test/dummy</topic>
 		<target>test/app</target>
 	</mqtt>
-    <pid>0</pid>
+    <pin>42</pin>
 </dummy_device>
 </config>

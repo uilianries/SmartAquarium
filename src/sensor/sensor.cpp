@@ -36,11 +36,11 @@ void sensor::initialize_device()
 {
     auto pin = device_options().pin;
     logger().debug("Connect with GPIO " + pin);
-    input_pin_.reset(new bbb::gpio::istream(boost::lexical_cast<unsigned>(pin)));
+    input_pin_.reset(new bbb::gpio::analog_istream(boost::lexical_cast<unsigned>(pin)));
     input_pin_->delegate_event(std::bind(&sensor::on_pin_level_event, this, std::placeholders::_1));
 }
 
-void sensor::on_pin_level_event(bbb::gpio::pin_level pin_level)
+void sensor::on_pin_level_event(bbb::gpio::analog_level pin_level)
 {
     tokens_.insert(mqtt_client().publish(device_options().mqtt.topic, bbb::gpio::to_string(pin_level),
         IoT::MQTT::QoS::AT_LEAST_ONCE));

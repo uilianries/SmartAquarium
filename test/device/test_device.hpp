@@ -67,20 +67,17 @@ namespace test {
          */
         void wait_for_disconnect();
 
-    private:
         /**
-         * \brief Receive signal from dummy process when connect on broker
-         * \param sig POSIX signal id
+         * \brief Wait for first Dummy device message
          */
-        void on_signal(const int& sig);
+        void wait_for_dummy_device_connection();
 
-        std::unique_ptr<signal_handler> signal_handler_; /**> receives POSIX signal */
+    private:
         std::unique_ptr<IoT::MQTT::MQTTClient> mqtt_client_; /**< MQTT client that sends message to dummy*/
         std::unique_ptr<Poco::ProcessHandle> process_h_; /**< dummy process handler */
         Poco::AutoPtr<Poco::Util::XMLConfiguration> xml_configuration_; /** Load XML file */
         IoT::MQTT::MessageArrivedEvent arrived_event_; /**< Event to be treated */
-        bool dummy_connected_ = false; /**< sentinel to broker connection */
-        bool message_received_ = false; /**< Message from broker was received*/
+        bool message_received_ = false; /** Message arrived from MQTT client */
     };
 
 } // namespace test

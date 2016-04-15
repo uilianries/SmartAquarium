@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <config>
 <ph_sensor>
-    <pin>AIN1</pin>
+    <pin>1</pin>
     <mqtt>
-        <server>m11.cloudmqtt.com</server>
-        <port>15347</port>
+        <server>127.0.0.1</server>
+        <port>1883</port>
         <clientid>PhSensor</clientid>
-        <username>ph_sensor</username>
-        <password>phsensor</password>
+        <username></username>
+        <password></password>
         <topic>smartaquarium/sensor/ph/+</topic>
     </mqtt>
     <breed>

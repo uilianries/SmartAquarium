@@ -15,9 +15,9 @@ check_clang_format() {
 }
 
 format_files() {
-    for i in $(find -type f -name "*${file_sufix}"); do
-        echo "INFO: Format file ${i}"
-        ${formatter} -i -style=${format_style} $i
+    for file in $(find -type f -name "*${file_sufix}"); do
+        echo "INFO: Format file ${file}"
+        ${formatter} -i -style=${format_style} $file
     done
 }
 

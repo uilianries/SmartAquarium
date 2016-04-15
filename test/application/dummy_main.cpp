@@ -5,7 +5,6 @@
  */
 #include "application/dummy_application.hpp"
 #include <iostream>
-#include <Poco/Util/ServerApplication.h>
 
 /**
  * \brief Execute dummy application

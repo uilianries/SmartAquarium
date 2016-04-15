@@ -6,49 +6,43 @@
 #include "device/dummy_device.hpp"
 
 #include <cassert>
-#include <stdexcept>
-
-#include <Poco/Util/ServerApplication.h>
-#include <signal.h>
 
 namespace smartaquarium {
 namespace test {
 
     void dummy_device::initialize_device()
     {
-        auto ss = config().getString("dummy_device.mqtt.topic");
-        mqtt_client().subscribe(ss, IoT::MQTT::QoS::AT_LEAST_ONCE);
         assert(mqtt_client().connected());
     }
 
     void dummy_device::on_disconnect(const IoT::MQTT::ConnectionLostEvent& event)
     {
         std::ignore = event;
-        kill(config().getInt("dummy_device.pid"), SIGUSR2);
     }
 
     void dummy_device::on_message_delivered(const IoT::MQTT::MessageDeliveredEvent& event)
     {
-        assert(token_ == event.token);
+        std::ignore = event.token;
     }
 
     void dummy_device::on_message_arrived(const IoT::MQTT::MessageArrivedEvent& event)
     {
-        auto target = config().getString("dummy_device.mqtt.target");
+        const auto& topic = config().getString(commandName() + ".mqtt.target");
 
         if (event.message.payload == "disconnect") {
-            mqtt_client().disconnect(10000);
+            token_ = mqtt_client().publish(topic, device_options().pin, IoT::MQTT::QoS::AT_LEAST_ONCE);
             mqtt_client().connectionLost(this, IoT::MQTT::ConnectionLostEvent());
         }
         else {
-            token_ = mqtt_client().publish(target, event.message.payload, IoT::MQTT::QoS::AT_LEAST_ONCE);
+            token_ = mqtt_client().publish(topic, event.message.payload, IoT::MQTT::QoS::AT_LEAST_ONCE);
         }
     }
 
     void dummy_device::on_connect(const IoT::MQTT::ConnectionDoneEvent& event)
     {
         std::ignore = event;
-        kill(config().getInt("dummy_device.pid"), SIGUSR1);
+        const auto& topic = config().getString(commandName() + ".mqtt.target");
+        mqtt_client().publish(topic, device_options().mqtt.client_id, IoT::MQTT::QoS::AT_LEAST_ONCE);
     }
 
 } // namespace test
