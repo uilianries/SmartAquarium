@@ -4,7 +4,7 @@ project(sensor CXX)
 file(GLOB SOURCE_FILES
     *.cpp)
 
-set(SENSOR_APP_LIST thermal_sensor light_sensor ph_sensor)
+set(SENSOR_APP_LIST light_sensor ph_sensor)
 
 foreach(APP ${SENSOR_APP_LIST})
 add_executable(${APP} ${SOURCE_FILES})

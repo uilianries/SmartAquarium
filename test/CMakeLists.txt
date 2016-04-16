@@ -8,4 +8,3 @@ find_library(GOOGLE_TEST_LIB gtest)
 add_subdirectory(application)
 add_subdirectory(device)
 add_subdirectory(util)
-

@@ -1,21 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <config>
 <thermal_sensor>
-    <pin>UART4_RXD</pin>
+    <pin>0</pin>
 	<mqtt>
 		<server>127.0.0.1</server>
 		<port>1883</port>
 		<clientid>ThermalSensor</clientid>
 		<username></username>
 		<password></password>
-		<topic>smartaquarium/sensor/temperature/+</topic>
-		<actuatortopic>smartaquarium/heater</actuatortopic>
+		<topic>smartaquarium/sensor/temperature/level</topic>
 	</mqtt>
-	<breed>
-		<betta>
-			<min>22</min>
-			<max>30</max>
-		</betta>
-	</breed>
 </thermal_sensor>
 </config>

@@ -28,6 +28,7 @@ find_package(Boost
         COMPONENTS
         system
         filesystem
+        regex
         REQUIRED)
 
 set(POCO_LIBRARIES ${POCO_FOUNDATION_LIB} ${POCO_UTIL_LIB})
