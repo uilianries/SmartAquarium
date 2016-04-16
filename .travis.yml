@@ -16,7 +16,7 @@ before_install:
   - cd ../.. && rm -rf googletest
   - git clone https://github.com/uilianries/MQTTClient.git && cd MQTTClient && mkdir build && cd build && cmake .. && make && sudo make install
   - cd ../.. && rm -rf MQTTClient
-  - git clone https://github.com/uilianries/BeagleBoneBlackGPIO.git && cd BeagleBoneBlackGPIO && mkdir build && cd build && cmake .. && make && sudo make install
+  - git clone https://github.com/uilianries/BeagleBoneBlackGPIO.git && cd BeagleBoneBlackGPIO && mkdir build && cd build && cmake .. -DTESTS=OFF -DSAMPLES=OFF && make && sudo make install
   - cd ../.. && rm -rf BeagleBoneBlackGPIO
 
 script:
