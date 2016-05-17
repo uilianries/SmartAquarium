@@ -18,7 +18,8 @@ namespace test {
         }
         catch (const std::invalid_argument&) {
         }
-        assert(mqtt_client().connected());
+        const auto& topic = config().getString(commandName() + ".mqtt.topic");
+        mqtt_client().subscribe(topic, IoT::MQTT::QoS::AT_MOST_ONCE);
     }
 
     void dummy_device::on_disconnect(const IoT::MQTT::ConnectionLostEvent& event)

@@ -20,7 +20,7 @@ namespace test {
 
     void test_device::SetUp()
     {
-        constexpr auto xml_config_file = "dummy_device.xml";
+        constexpr auto xml_config_file = "/etc/smartaquarium/dummy_device.xml";
 
         xml_configuration_.assign(new Poco::Util::XMLConfiguration(xml_config_file));
         auto broker_address = xml_configuration_->getString("dummy_device.mqtt.server") + ":" + xml_configuration_->getString("dummy_device.mqtt.port");

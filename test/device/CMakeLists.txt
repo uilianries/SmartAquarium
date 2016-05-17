@@ -7,4 +7,6 @@ target_link_libraries(dummy_device device)
 add_executable(test_device test_device.cpp main.cpp)
 target_link_libraries(test_device ${POCO_LIBRARIES} ${GOOGLE_TEST_LIB} ${MQTT_CLIENT_LIBRARIES} signal_handler)
 
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/dummy_device.xml DESTINATION ${CMAKE_BINARY_DIR})
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/dummy_device.xml
+        DESTINATION /etc/smartaquarium
+        PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ GROUP_WRITE WORLD_READ WORLD_WRITE)
