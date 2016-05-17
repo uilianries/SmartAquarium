@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <config>
 <lighting>
-    <pin>GPIO_45</pin>
+    <pin>68</pin>
+    <sensor>
+        <min>30</min>
+        <max>90</max>
+    </sensor>
     <mqtt>
-        <server>127.0.0.1</server>
-        <port>1883</port>
+        <server>m11.cloudmqtt.com</server>
+        <port>15347</port>
         <clientid>Lighting</clientid>
-        <username></username>
-        <password></password>
-        <topic>smartaquarium/lighting/+</topic>
+        <username>lighting</username>
+        <password>lighting</password>
+        <topic>smartaquarium/actuator/lighting/config</topic>
+        <sensor_topic>smartaquarium/sensor/light/level</sensor_topic>
     </mqtt>
 </lighting>
 </config>

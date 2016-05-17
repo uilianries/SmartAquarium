@@ -124,11 +124,6 @@ private:
     void create_client();
 
     /**
-     * \brief Start MQTT client
-     */
-    void create_connection();
-
-    /**
      * \brief Load internal options
      */
     void load_options();

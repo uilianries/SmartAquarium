@@ -7,6 +7,6 @@
 #include <iostream>
 #include <Poco/Util/ServerApplication.h>
 
-#include "thermal_sensor/thermal_sensor.hpp"
+#include "temperature_sensor/temperature_sensor.hpp"
 
-POCO_SERVER_MAIN(smartaquarium::thermal_sensor)
+POCO_SERVER_MAIN(smartaquarium::temperature_sensor)

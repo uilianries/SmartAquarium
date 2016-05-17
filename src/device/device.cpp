@@ -6,9 +6,10 @@
 
 #include "device/device.hpp"
 
-#include <sstream>
 #include <Poco/Delegate.h>
 #include <boost/lexical_cast.hpp>
+#include <sstream>
+#include <tuple>
 
 namespace smartaquarium {
 
@@ -17,7 +18,6 @@ void device::work()
     load_options();
     create_client();
     delegate_all();
-    create_connection();
     initialize_device();
 }
 
@@ -29,28 +29,13 @@ void device::create_client()
 
     log_connection_data(arguments, topic);
 
-    mqtt_client_ = std::move(MQTTClientFactory::CreateMQTTClient<MQTTClientFactory::ClientType::Paho>(std::move(arguments)));
-}
-
-void device::create_connection()
-{
-    std::string topic;
-    MQTTClientFactory::FactoryArguments arguments;
-    std::tie(arguments, topic) = load_arguments();
-
-    auto server_uri = arguments.serverUri;
-    mqtt_client_->subscribe(std::move(topic), IoT::MQTT::QoS::AT_LEAST_ONCE);
-
-    logger().information("MQTT Client is connected at " + server_uri);
-
-    IoT::MQTT::ConnectionDoneEvent event;
-    mqtt_client_->connectionDone.notify(this, event);
+    mqtt_client_ = MQTTClientFactory::CreateMQTTClient<MQTTClientFactory::ClientType::Paho>(std::move(arguments));
 }
 
 void device::log_connection_data(const MQTTClientFactory::FactoryArguments& arguments, const std::string& topic)
 {
     std::ostringstream dump;
-    dump << "MQTT Client Config:" << std::endl;
+    dump << "MQTT Client Config: " << std::endl;
     dump << "Server URI: " << arguments.serverUri << std::endl;
     dump << "Client ID: " << arguments.clientId << std::endl;
     dump << "User Name: " << arguments.options.username << std::endl;

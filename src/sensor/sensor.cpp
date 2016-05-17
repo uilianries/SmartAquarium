@@ -7,6 +7,7 @@
 #include "sensor/sensor.hpp"
 #include "bbbgpio/string.hpp"
 #include <boost/lexical_cast.hpp>
+#include <Poco/LogStream.h>
 
 namespace smartaquarium {
 
@@ -42,6 +43,8 @@ void sensor::initialize_device()
 
 void sensor::on_pin_level_event(bbb::gpio::analog_level pin_level)
 {
+    Poco::LogStream lstream(logger());
+    lstream << "GPIO level event: " << pin_level;
     tokens_.insert(mqtt_client().publish(device_options().mqtt.topic, bbb::gpio::to_string(pin_level),
         IoT::MQTT::QoS::AT_LEAST_ONCE));
 }

@@ -8,7 +8,7 @@ IF(CMAKE_BUILD_TYPE MATCHES Debug)
     set(CMAKE_VERBOSE_MAKEFILE ON)
 ENDIF(CMAKE_BUILD_TYPE MATCHES Debug)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -coverage -std=c++11 -pedantic -Wall -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo -Wstrict-overflow=5 -Wswitch-default -Wundef -Werror -Wno-unused")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -coverage -std=c++14 -pedantic -Wall -Wextra -Wcast-qual -Wdisabled-optimization -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Woverloaded-virtual -Wredundant-decls -Wsign-promo -Wstrict-overflow=5 -Wswitch-default -Werror -Wno-unused")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
 
 configure_file(
@@ -20,19 +20,27 @@ include_directories(${PROJECT_SOURCE_DIR}/src)
 
 find_library(POCO_FOUNDATION_LIB PocoFoundation)
 find_library(POCO_UTIL_LIB PocoUtil)
+find_library(POCO_JSON_LIB PocoJSON)
 find_library(IOTMQTTCLIENT_LIB IoTMQTTClient)
 find_library(PAHO_LIB Paho)
 find_library(BBBGPIO_LIB bbbgpio)
+find_library(MOCK_BBBGPIO_LIB mock_bbbgpio)
 
 find_package(Boost
         COMPONENTS
-        system
         filesystem
+        system
         regex
         REQUIRED)
 
-set(POCO_LIBRARIES ${POCO_FOUNDATION_LIB} ${POCO_UTIL_LIB})
+set(POCO_LIBRARIES ${POCO_FOUNDATION_LIB} ${POCO_UTIL_LIB} ${POCO_JSON_LIB})
 set(MQTT_CLIENT_LIBRARIES ${IOTMQTTCLIENT_LIB} ${PAHO_LIB} crypto ssl pthread)
 
+option(TESTS "Generate tests" ON)
+
 add_subdirectory(src)
-add_subdirectory(test)
+if (TESTS)
+    add_subdirectory(test)
+endif()
+add_subdirectory(config)
+add_subdirectory(service)

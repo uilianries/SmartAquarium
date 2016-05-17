@@ -10,11 +10,5 @@
         <password></password>
         <topic>smartaquarium/sensor/ph/+</topic>
     </mqtt>
-    <breed>
-        <betta>
-            <min>6</min>
-            <max>8</max>
-        </betta>
-    </breed>
 </ph_sensor>
 </config>

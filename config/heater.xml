@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <config>
 <heater>
-    <pin>GPIO_65</pin>
+    <pin>67</pin>
+    <sensor>
+        <min>25</min>
+        <max>30</max>
+    </sensor>
     <mqtt>
-        <server>127.0.0.1</server>
-        <port>1883</port>
+        <server>m11.cloudmqtt.com</server>
+        <port>15347</port>
         <clientid>Heater</clientid>
-        <username></username>
-        <password></password>
-        <topic>smartaquarium/heater/+</topic>
+        <username>heater</username>
+        <password>heater</password>
+        <topic>smartaquarium/actuator/heater/config</topic>
+        <sensor_topic>smartaquarium/sensor/temperature/level</sensor_topic>
     </mqtt>
 </heater>
 </config>

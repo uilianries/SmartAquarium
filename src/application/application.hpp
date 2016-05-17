@@ -10,6 +10,9 @@
 #include <Poco/Util/ServerApplication.h>
 #include <Poco/FormattingChannel.h>
 #include <Poco/PatternFormatter.h>
+#include <Poco/FileChannel.h>
+#include <Poco/AutoPtr.h>
+#include <Poco/Path.h>
 
 using Poco::Util::ServerApplication;
 using Poco::Util::Application;
@@ -35,6 +38,11 @@ protected:
      */
     virtual void work() = 0;
 
+    /**
+     * \brief Get app configuration file path
+     */
+    Poco::Path get_configuration_file_path() const;
+
 private:
     /**
    * \brief Execute main function
@@ -55,7 +63,8 @@ private:
     void configure_logger();
 
     Poco::AutoPtr<Poco::PatternFormatter> pattern_formatter_; /**< Pattern for log */
-    Poco::AutoPtr<Poco::FormattingChannel> formatting_channel_; /**< Formmatin Channel */
+    Poco::AutoPtr<Poco::FormattingChannel> formatting_channel_; /**< Formatting Channel */
+    Poco::AutoPtr<Poco::FileChannel> file_channel_; /**< File Channel */
 };
 } // namespace smartaquarium
 

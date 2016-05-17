@@ -11,10 +11,5 @@
 		<actuadortopic>smartaquarium/lighting/+</actuadortopic>
 	</mqtt>
 	<pin>AIN0</pin>
-<breed>
-	<betta>
-		<level>low</level>
-	</betta>
-</breed>
 </light_sensor>
 </config>

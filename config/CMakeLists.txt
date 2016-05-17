@@ -4,4 +4,4 @@ file(GLOB CONFIG_FILES
     *.xml)
 
 install(FILES ${CONFIG_FILES} 
-    DESTINATION ${CMAKE_INSTALL_PREFIX}/games)
+    DESTINATION /etc/smartaquarium)

@@ -1,11 +1,11 @@
 /**
  * \file
- * \brief Abstract actuator
+ * \brief Device feeder dispenser
  * \author Uilian Ries <uilianries@gmail.com>
  */
 
-#ifndef SMARTAQUARIUM_ACTUATOR_HPP_
-#define SMARTAQUARIUM_ACTUATOR_HPP_
+#ifndef SMARTAQUARIUM_FEEDER_HPP_
+#define SMARTAQUARIUM_FEEDER_HPP_
 
 #include <unordered_map>
 #include <memory>
@@ -15,34 +15,9 @@
 namespace smartaquarium {
 
 /**
- * \brief Actuator data
+ * \brief Feeder device
  */
-struct actuator_options {
-    /**
-     * \brief Max and min levels to treat
-     */
-    struct sensor_level {
-        /** Min level */
-        double min = 0.0;
-        /** Max level */
-        double max = 0.0;
-    };
-    /** sensor to observe */
-    std::string sensor_topic;
-    /** Current Sensor level */
-    sensor_level level;
-};
-
-/**
- * \brief Abstract actuator
- */
-class actuator : public device {
-public:
-    /**
-   * \brief Default constructor
-   */
-    actuator() = default;
-
+class feeder : public device {
 private:
     /**
      * \brief Treat disconnection event
@@ -99,30 +74,11 @@ private:
     void output_off();
 
     /**
-     * \brief Update the internal level
+     * \brief Dispense food event request
+     * \param command payload information
      */
-    void update_level_from_file();
+    void on_command(const std::string& command);
 
-    /**
-     * \brief Update data from broker, to config file
-     * \param payload Formatted message from broker
-     */
-    void update_level_on_file(const std::string& payload);
-
-    /**
-     * \brief Get max config in XML file
-     * \return max level path in config file
-     */
-    std::string get_config_max() const;
-
-    /**
-     * \brief Get min config in XML file
-     * \return minimal level path in config file
-     */
-    std::string get_config_min() const;
-
-    /** Actuator options */
-    actuator_options actuator_options_;
     /** Command arrived */
     process_map process_command_;
     /** Pin access */
@@ -133,4 +89,4 @@ private:
 
 } // namespace smartaquarium
 
-#endif // SMARTAQUARIUM_ACTUATOR_HPP_
+#endif // SMARTAQUARIUM_FEEDER_HPP_

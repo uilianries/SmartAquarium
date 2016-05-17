@@ -4,8 +4,8 @@
  * \author Uilian Ries <uilianries@gmail.com>
  */
 
-#ifndef SMARTAQUARIUM_THERMAL_SENSOR_HPP
-#define SMARTAQUARIUM_THERMAL_SENSOR_HPP
+#ifndef SMARTAQUARIUM_TEMPERATURE_SENSOR_HPP
+#define SMARTAQUARIUM_TEMPERATURE_SENSOR_HPP
 
 #include <bbbgpio/stream.hpp>
 #include "device/device.hpp"
@@ -15,7 +15,7 @@ namespace smartaquarium {
 /**
  * \brief Treat thermal sensor DS1820
  */
-class thermal_sensor : public device {
+class temperature_sensor : public device {
     /**
      * \brief Treat disconnection event
      * \param event disconnection cause
@@ -46,7 +46,7 @@ class thermal_sensor : public device {
     void initialize_device() override;
 
     /** Temperature monitor */
-    bbb::gpio::thermal_stream thermal_stream_;
+    std::unique_ptr<bbb::gpio::thermal_stream> thermal_stream_;
 
     /**
      * \brief Forward event to broker
@@ -57,4 +57,4 @@ class thermal_sensor : public device {
 
 } // namespace smartaquarium
 
-#endif //SMARTAQUARIUM_THERMAL_SENSOR_HPP
+#endif //SMARTAQUARIUM_TEMPERATURE_SENSOR_HPP
