@@ -5,7 +5,7 @@ file(GLOB SOURCE_FILES
     *.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
-target_link_libraries(${PROJECT_NAME} device ${BBBGPIO_LIB} ${Boost_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} device ${MOCK_BBBGPIO_LIB} ${Boost_LIBRARIES})
 
 set(SENSOR_APP_LIST light_sensor ph_sensor)
 foreach(APP ${SENSOR_APP_LIST})

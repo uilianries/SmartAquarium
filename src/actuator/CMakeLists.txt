@@ -8,7 +8,7 @@ set(ACTUATOR_APP_LIST lighting heater)
 
 foreach(APP ${ACTUATOR_APP_LIST})
     add_executable(${APP} ${SOURCE_FILES})
-    target_link_libraries(${APP} device ${BBBGPIO_LIB} ${Boost_LIBRARIES})
+    target_link_libraries(${APP} device ${MOCK_BBBGPIO_LIB} ${Boost_LIBRARIES})
 
     install(TARGETS ${APP}
             DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)

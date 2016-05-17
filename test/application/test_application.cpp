@@ -9,6 +9,7 @@
 
 #include <Poco/AutoPtr.h>
 #include <Poco/Path.h>
+#include <Poco/File.h>
 #include <Poco/Util/Application.h>
 #include <Poco/Util/SystemConfiguration.h>
 #include <Poco/Util/XMLConfiguration.h>
@@ -28,7 +29,13 @@ namespace test {
         Poco::AutoPtr<Poco::Util::SystemConfiguration> system_configuration(new Poco::Util::SystemConfiguration());
         auto current_pid = system_configuration->getInt("system.pid");
 
-        auto test_config_name = test_process_name + ".xml";
+        auto test_config_name = "/etc/smartaquarium/" + test_process_name + ".xml";
+        Poco::File test_config_file(test_config_name);
+        ASSERT_TRUE(test_config_file.exists());
+        ASSERT_TRUE(test_config_file.isFile());
+        ASSERT_TRUE(test_config_file.canRead());
+        ASSERT_TRUE(test_config_file.canWrite());
+
         Poco::AutoPtr<Poco::Util::XMLConfiguration> xml_configuration(new Poco::Util::XMLConfiguration(test_config_name));
         xml_configuration->setInt(test_process_name + ".target", current_pid);
         xml_configuration->save(test_config_name);
