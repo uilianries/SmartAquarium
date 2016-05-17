@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <config>
 <dummy_application>
-    <pin>GPIO_XX</pin>
-    <mqtt>
-        <server>m11.cloudmqtt.com</server>
-        <port>15347</port>
-        <clientid>Dummy</clientid>
-        <username>dummy</username>
-        <password>dummy</password>
-        <topic>smartaquarium/dummy/+</topic>
-    </mqtt>
+    <target>0</target>
 </dummy_application>
 </config>

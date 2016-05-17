@@ -16,7 +16,7 @@
 namespace smartaquarium {
 
 /**
- * \brief Start an async task in middle the 
+ * \brief Start an async task in middle the
  *        application.
  */
 class task : public Poco::Task {
@@ -25,11 +25,6 @@ public:
      * Task assign
      */
     using work = std::function<void()>;
-
-    /**
-     * \brief Virtual desctructor
-     */
-    virtual ~task();
 
     /**
       * \brief Task constructor

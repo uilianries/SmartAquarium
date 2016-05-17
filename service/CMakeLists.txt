@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 2.8)
+
+file(GLOB CONFIG_FILES
+    *.sh)
+
+install(FILES ${CONFIG_FILES}
+        DESTINATION /etc/init.d
+        PERMISSIONS OWNER_READ OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_EXECUTE)

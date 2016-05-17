@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+<feeder>
+    <pin>66</pin>
+    <mqtt>
+        <server>m11.cloudmqtt.com</server>
+        <port>15347</port>
+        <clientid>Feeder</clientid>
+        <username>feeder_actuator</username>
+        <password>feederactuator</password>
+        <topic>smartaquarium/actuator/feeder/command</topic>
+    </mqtt>
+</feeder>
+</config>

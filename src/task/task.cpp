@@ -4,9 +4,7 @@
  *
  * \author Uilian Ries <uilianries@gmail.com>
  */
-#include "application/task.hpp"
-
-#include <stdexcept>
+#include "task/task.hpp"
 
 namespace smartaquarium {
 
@@ -15,22 +13,11 @@ task::task(const std::string& _task_name, work _work, Poco::Logger& _logger)
     , logger_(_logger)
     , work_(_work)
 {
-    if (_task_name.empty()) {
-        throw std::invalid_argument("Task name could not be empty.");
-    }
-
-    if (!_work) {
-        throw std::invalid_argument("Work function could not be null.");
-    }
 }
 
 void task::runTask()
 {
     work_();
-}
-
-task::~task()
-{
 }
 
 } // namespace smartaquarium

@@ -3,10 +3,18 @@
  * \brief Execute Unit Test for application
  * \author Uilian Ries <uilianries@gmail.com>
  */
-#include "application/application.hpp"
+#include "application/dummy_application.hpp"
 
-/**
- * \brief Run application
- */
-class dummy_application : public smartaquarium::application {
-};
+#include <signal.h>
+
+namespace smartaquarium {
+namespace test {
+
+    void dummy_application::work()
+    {
+        auto target = config().getInt(commandName() + ".target");
+        kill(target, SIGUSR1);
+    }
+
+} // namespace test
+} // namespace smartaquarium

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+<temperature_sensor>
+    <pin>0</pin>
+	<mqtt>
+		<server>m11.cloudmqtt.com</server>
+		<port>15347</port>
+		<clientid>ThermalSensor</clientid>
+		<username>temperature_sensor</username>
+		<password>temperaturesensor</password>
+		<topic>smartaquarium/sensor/temperature/level</topic>
+	</mqtt>
+</temperature_sensor>
+</config>

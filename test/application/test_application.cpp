@@ -7,36 +7,68 @@
 #include <chrono>
 #include <thread>
 
+#include <Poco/AutoPtr.h>
 #include <Poco/Path.h>
-#include <Poco/Environment.h>
 #include <Poco/File.h>
+#include <Poco/Util/Application.h>
+#include <Poco/Util/SystemConfiguration.h>
+#include <Poco/Util/XMLConfiguration.h>
+#include <Poco/Delegate.h>
 
 #include "test_application.hpp"
+#include "util/util.hpp"
 
-void test_application::SetUp()
-{
-    const std::string test_process_name{ "dummy_application" };
-    const std::string bin_directory{ "test/application" };
+namespace smartaquarium {
+namespace test {
 
-    Poco::Path process_abs_path;
-    ASSERT_TRUE(Poco::Path::find(bin_directory, test_process_name, process_abs_path));
+    void test_application::SetUp()
+    {
+        const std::string test_process_name{ "dummy_application" };
+        const Poco::Path test_process_bin_path{ "test/application/" + test_process_name };
 
-    Poco::File process_fd{ process_abs_path };
-    ASSERT_TRUE(process_fd.exists());
-    ASSERT_TRUE(process_fd.canExecute());
+        Poco::AutoPtr<Poco::Util::SystemConfiguration> system_configuration(new Poco::Util::SystemConfiguration());
+        auto current_pid = system_configuration->getInt("system.pid");
 
-    Poco::Process::Args args;
-    process_h_.reset(new Poco::ProcessHandle(Poco::Process::launch(process_abs_path.toString(), args)));
-    ASSERT_NE(0, process_h_->id());
-}
+        auto test_config_name = "/etc/smartaquarium/" + test_process_name + ".xml";
+        Poco::File test_config_file(test_config_name);
+        ASSERT_TRUE(test_config_file.exists());
+        ASSERT_TRUE(test_config_file.isFile());
+        ASSERT_TRUE(test_config_file.canRead());
+        ASSERT_TRUE(test_config_file.canWrite());
 
-void test_application::TearDown()
-{
-    Poco::Process::requestTermination(process_h_->id());
-    auto error_code = process_h_->wait();
-    ASSERT_EQ(0, error_code);
-}
+        Poco::AutoPtr<Poco::Util::XMLConfiguration> xml_configuration(new Poco::Util::XMLConfiguration(test_config_name));
+        xml_configuration->setInt(test_process_name + ".target", current_pid);
+        xml_configuration->save(test_config_name);
 
-TEST_F(test_application, StartApplication)
-{
-}
+        signal_handler_.reset(new signal_handler(SIGUSR1));
+        signal_handler_->on_signal_arrived += Poco::delegate(this, &test_application::on_sigusr);
+
+        process_h_ = launch_process(test_process_bin_path);
+    }
+
+    void test_application::TearDown()
+    {
+        Poco::Process::requestTermination(process_h_->id());
+        auto error_code = process_h_->wait();
+        ASSERT_EQ(0, error_code);
+    }
+
+    void test_application::on_sigusr(const int& signum)
+    {
+        if (signum == SIGUSR1) {
+            signal_received_ = true;
+        }
+    }
+
+    bool test_application::signal_received() const noexcept
+    {
+        return signal_received_;
+    }
+
+    TEST_F(test_application, StartApplication)
+    {
+        ASSERT_TRUE(wait_for(std::chrono::seconds(10), [this]() { return signal_received(); }));
+    }
+
+} // namespace test
+} // namespace smartaquarium
