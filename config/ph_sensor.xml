@@ -3,11 +3,11 @@
 <ph_sensor>
     <pin>1</pin>
     <mqtt>
-        <server>127.0.0.1</server>
-        <port>1883</port>
+        <server>m11.cloudmqtt.com</server>
+        <port>15347</port>
         <clientid>PhSensor</clientid>
-        <username></username>
-        <password></password>
+        <username>ph_sensor</username>
+        <password>phsensor</password>
         <topic>smartaquarium/sensor/ph/+</topic>
     </mqtt>
 </ph_sensor>
