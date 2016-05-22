@@ -43,6 +43,35 @@ public:
    */
     actuator() = default;
 
+protected:
+    /**
+     * \brief Process new data level from the sensor
+     * \param level sensor level
+     */
+    virtual void process_sensor_level(const std::string& level) = 0;
+
+    /**
+     * \brief Get actuator options property
+     * \return options member
+     */
+    const actuator_options& get_actuator_options() const noexcept;
+
+    /**
+     * \brief Get last level read
+     * \return Current level
+     */
+    bbb::gpio::pin_level get_current_level() const noexcept;
+
+    /**
+     * \brief Enable output on relay
+     */
+    void output_on();
+
+    /**
+     * \brief Disable output on relay
+     */
+    void output_off();
+
 private:
     /**
      * \brief Treat disconnection event
@@ -75,28 +104,12 @@ private:
     void process_update_level(const std::string& level);
 
     /**
-     * \brief Process new data level from the sensor
-     * \param level sensor level
-     */
-    void process_sensor_level(const std::string& level);
-
-    /**
      * \brief Connect with gpio
      */
     void initialize_device() override;
 
     /** Treat events */
     using process_map = std::unordered_map<std::string, std::function<void(const std::string&)> >;
-
-    /**
-     * \brief Enable output on relay
-     */
-    void output_on();
-
-    /**
-     * \brief Disable output on relay
-     */
-    void output_off();
 
     /**
      * \brief Update the internal level

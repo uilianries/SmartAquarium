@@ -140,4 +140,14 @@ std::string actuator::get_config_min() const
     return commandName() + ".sensor.min";
 }
 
+const actuator_options& actuator::get_actuator_options() const noexcept
+{
+    return actuator_options_;
+}
+
+bbb::gpio::pin_level actuator::get_current_level() const noexcept
+{
+    return current_level_;
+}
+
 } // namespace smartaquarium
