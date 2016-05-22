@@ -1,12 +1,12 @@
 /**
  * \file
- * \brief Launch actuator application
+ * \brief Launch heater application
  * \author Uilian Ries <uilianries@gmail.com>
  */
 
 #include <iostream>
 #include <Poco/Util/ServerApplication.h>
 
-#include "actuator/actuator.hpp"
+#include "heater/heater.hpp"
 
-POCO_SERVER_MAIN(smartaquarium::actuator)
+POCO_SERVER_MAIN(smartaquarium::heater)
